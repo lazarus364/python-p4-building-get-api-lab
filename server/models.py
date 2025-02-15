@@ -20,6 +20,11 @@ class Bakery(db.Model, SerializerMixin):
 
     baked_goods = db.relationship('BakedGood', backref='bakery')
 
+    def to_dict_with_baked_goods(self):
+        bakery_dict = self.to_dict()
+        bakery_dict['baked_goods'] = [baked_good.to_dict() for baked_good in self.baked_goods]
+        return bakery_dict
+
     def __repr__(self):
         return f'<Bakery {self.name}>'
 
